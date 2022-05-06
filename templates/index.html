@@ -1,10 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Tortoise</title>
+    <link rel="icon" href="https://www.flaticon.com/svg/static/icons/svg/1875/1875660.svg" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/template.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
+
+
 <body>
-$END$
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <span class="navbar-brand mx-auto">Tortoise</span>
+    </div>
+</nav>
+
+<main role="main" class="container">
+
+    <br/>
+    <form enctype="multipart/form-data" id="mail-form" action="/" method="POST" novalidate>
+        <div class="row mt-3"></div>
+
+        <div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">From</label>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" id="customSenderAddr" name="sender-addr" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" onclick="generateRandomEmailAddress()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-shuffle" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.624 9.624 0 0 0 7.556 8a9.624 9.624 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.595 10.595 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.624 9.624 0 0 0 6.444 8a9.624 9.624 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">As</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="customSenderName" name="sender-name" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" onclick="generateRandomName()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-shuffle" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.624 9.624 0 0 0 7.556 8a9.624 9.624 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.595 10.595 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.624 9.624 0 0 0 6.444 8a9.624 9.624 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">To</label>
+                    <input type="text" class="form-control" name="receiver-addr"
+                           placeholder="email address1, email address2,..." required/>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">Subject</label>
+                    <input type="text" class="form-control" name="email-subject" required/>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">Cc</label>
+                    <input type="text" class="form-control" name="email-cc"
+                           placeholder="email address1, email address2,..."/>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold">Bcc</label>
+                    <input type="text" class="form-control" name="email-bcc"
+                           placeholder="email address1, email address2,..."/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="font-weight-bold">Headers</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Header</span>
+                    </div>
+                    <input type="text" class="form-control" name="header-name" placeholder="X-Header">
+                    <input type="text" class="form-control" name="header-value" placeholder="Value">
+                    <button type="button" class="btn btn-success" id="emailHeader" onclick="addMoreHeader()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-plus" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold" for="formControlTextarea">Body</label>
+                <textarea class="form-control" id="formControlTextarea" rows="5" name="email-body" required></textarea>
+            </div>
+            <p class="font-weight-bold" style="margin-bottom:0.5em;">Attachments</p>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="email-attachment">
+                <label class="custom-file-label" for="customFile">Choose attachment file...</label>
+            </div>
+        </div>
+
+        <br/>
+
+        {% block content %}
+            <div class="container">
+                {% for message in get_flashed_messages() %}
+                    <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                {% block page_content %}{% endblock %}
+            </div>
+        {% endblock %}
+
+        <div>
+            <script>
+                function toggle() {
+                    $('#loader').show();
+                }
+            </script>
+            <input class="btn btn-primary" type="submit" name="send-mails" value="Send Mail" onclick="toggle()">
+            <button type="button" class="btn btn-warning" onclick="clearAllFields()">Clear All</button>
+        </div>
+    </form>
+
+    <div class="row mt-3"></div>
+
+    <div class="spinner-border text-info" role="status" id="loader" style="display:none">
+        <span class="sr-only">Loading...</span>
+    </div>
+
+</main><!-- /.container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"
+        integrity="sha256-QHdJObhDO++VITP6S4tMlDHRWMaUOk+s/xWIRgF/YY0=" crossorigin="anonymous"></script>
+<!-- Retain last submitted value for text input -->
+<script>
+    $(document).ready(function () {
+        $("#mail-form").submit(function () {
+            window.localStorage['send_val'] = $("input[name='sender-addr']").val();
+            window.localStorage['name_val'] = $("input[name='sender-name']").val();
+            window.localStorage['recv_val'] = $("input[name='receiver-addr']").val();
+            window.localStorage['sub_val'] = $("input[name='email-subject']").val();
+            window.localStorage['body_val'] = $("textarea[name='email-body']").val();
+        });
+        document.getElementsByName('sender-addr')[0].value = localStorage.getItem('send_val');
+        document.getElementsByName('sender-name')[0].value = localStorage.getItem('name_val');
+        document.getElementsByName('receiver-addr')[0].value = localStorage.getItem('recv_val');
+        document.getElementsByName('email-subject')[0].value = localStorage.getItem('sub_val');
+        document.getElementsByName('email-body')[0].value = localStorage.getItem('body_val');
+    });
+</script>
+<script>
+    function addMoreHeader() {
+        var html = '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">Header</span></div><input type="text" class="form-control" name="header-name"><input type="text" class="form-control" name="header-value"><button type="button" class="btn btn-danger" onclick="removeHeader(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg></button></div>';
+        $('#emailHeader').parent().append(html);
+    }
+
+    function removeHeader(ele) {
+        ele.parentNode.remove();
+    }
+</script>
+<script>
+    function clearAllFields() {
+        localStorage.clear();
+        document.getElementsByName('sender-addr')[0].value = '';
+        document.getElementsByName('sender-name')[0].value = '';
+        document.getElementsByName('receiver-addr')[0].value = '';
+        document.getElementsByName('email-subject')[0].value = '';
+        document.getElementsByName('email-body')[0].value = '';
+    }
+</script>
+<script>
+    function generateRandomName() {
+        $('#customSenderName').val(faker.name.findName()); // Caitlyn Kerluke
+    }
+
+    function generateRandomEmailAddress() {
+        $('#customSenderAddr').val(faker.internet.userName() + "@" + faker.internet.domainName()); // Rusty@arne.info
+    }
+
+    function generateRandomEmailBody() {
+        $('#formControlTextarea').val(faker.lorem.paragraphs()); // Lorem
+    }
+</script>
+<script>
+    $(".custom-file-input").on("change", function () {
+        const fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.17/js/bootstrap-select.min.js"
+        integrity="sha256-QOE02Glo1C1gHzP96JOaxyIMt4XSFv/exZaYLY4dwO0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

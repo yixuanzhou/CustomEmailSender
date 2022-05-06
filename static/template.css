@@ -1,0 +1,18 @@
+body {
+  padding-top: 5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.content div { display: none; }
+.content div.active { display: block; }
+
+.row {
+  display: table-row;
+}
+
+.row:hover {
+  background-color: #cccccc;
+}
