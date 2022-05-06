@@ -19,7 +19,6 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 
-
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -102,7 +101,10 @@
                         <span class="input-group-text">Header</span>
                     </div>
                     <input type="text" class="form-control" name="header-name" placeholder="X-Header">
-                    <input type="text" class="form-control" name="header-value" placeholder="Value">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Value</span>
+                    </div>
+                    <input type="text" class="form-control" name="header-value" placeholder="X-Value">
                     <button type="button" class="btn btn-success" id="emailHeader" onclick="addMoreHeader()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-plus" viewBox="0 0 16 16">
@@ -118,7 +120,7 @@
             <p class="font-weight-bold" style="margin-bottom:0.5em;">Attachments</p>
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile" name="email-attachment">
-                <label class="custom-file-label" for="customFile">Choose attachment file...</label>
+                <label class="custom-file-label" for="customFile">Upload attachments...</label>
             </div>
         </div>
 
@@ -169,18 +171,36 @@
             window.localStorage['name_val'] = $("input[name='sender-name']").val();
             window.localStorage['recv_val'] = $("input[name='receiver-addr']").val();
             window.localStorage['sub_val'] = $("input[name='email-subject']").val();
+            window.localStorage['cc_val'] = $("input[name='email-cc']").val();
+            window.localStorage['bcc_val'] = $("input[name='email-bcc']").val();
             window.localStorage['body_val'] = $("textarea[name='email-body']").val();
         });
         document.getElementsByName('sender-addr')[0].value = localStorage.getItem('send_val');
         document.getElementsByName('sender-name')[0].value = localStorage.getItem('name_val');
         document.getElementsByName('receiver-addr')[0].value = localStorage.getItem('recv_val');
         document.getElementsByName('email-subject')[0].value = localStorage.getItem('sub_val');
+        document.getElementsByName('email-cc')[0].value = localStorage.getItem('cc_val');
+        document.getElementsByName('email-bcc')[0].value = localStorage.getItem('bcc_val');
         document.getElementsByName('email-body')[0].value = localStorage.getItem('body_val');
     });
 </script>
 <script>
     function addMoreHeader() {
-        var html = '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">Header</span></div><input type="text" class="form-control" name="header-name"><input type="text" class="form-control" name="header-value"><button type="button" class="btn btn-danger" onclick="removeHeader(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg></button></div>';
+        var html = `<div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Header</span>
+                    </div>
+                    <input type="text" class="form-control" name="header-name" placeholder="X-Header">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Value</span>
+                    </div>
+                    <input type="text" class="form-control" name="header-value" placeholder="X-Value">
+                    <button type="button" class="btn btn-danger" onclick="removeHeader(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </button>
+                </div>`;
         $('#emailHeader').parent().append(html);
     }
 
@@ -194,6 +214,10 @@
         document.getElementsByName('sender-addr')[0].value = '';
         document.getElementsByName('sender-name')[0].value = '';
         document.getElementsByName('receiver-addr')[0].value = '';
+        document.getElementsByName('email-cc')[0].value = '';
+        document.getElementsByName('email-bcc')[0].value = '';
+        document.getElementsByName('header-name')[0].value = '';
+        document.getElementsByName('header-value')[0].value = '';
         document.getElementsByName('email-subject')[0].value = '';
         document.getElementsByName('email-body')[0].value = '';
     }
