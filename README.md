@@ -9,7 +9,7 @@ flask run
 ```
     
 ### Usage
-![image](https://github.com/yixuanzhou/Tortoise/blob/main/Tortoise.gif)
+![image](https://github.com/yixuanzhou/Tortoise/blob/main/static/uploads/Tortoise.gif)
 
 ### Feature
 - One-click random sender address and sender name - Use [Faker](https://github.com/joke2k/faker)
