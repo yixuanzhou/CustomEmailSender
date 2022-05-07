@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, url_for, request, session
 from werkzeug.utils import secure_filename
 from utils.send_mail import *
 import os
@@ -8,7 +8,6 @@ app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = ('txt', 'pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png')
-DEBUG = True
 
 
 def allowed_file(filename):
@@ -23,7 +22,11 @@ def home():
 
 @app.route('/', methods=['POST'])
 def submit():
-    print("Request Form Data:", request.form)
+    print("Request Data:", request.form)
+    print("Request List:", request.form.getlist('header-name'), request.form.getlist('header-value'))
+    print("Request File:", request.files)
+    if request.form.get('clear') == "Clear All":
+        return redirect("/")
     From = request.form.get('sender-addr')
     As = request.form.get('sender-name')
     To = request.form.get('receiver-addr')
@@ -33,13 +36,12 @@ def submit():
     Headers = [request.form.getlist('header-name'), request.form.getlist('header-value')]
     Cc = request.form.get('email-cc')
     Bcc = request.form.get('email-bcc')
-    print(Headers)
     if 'email-attachment' in request.files:
         if request.files.get('email-attachment').filename:
             file = request.files['email-attachment']
-            Attachments = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments))
-    send_mail(From, To, Subject, Body, As, Attachments, Headers, Cc, Bcc)
+            Attachments = (secure_filename(file.filename), file.content_type)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
+    res = send_mail(From, To, Subject, Body, As, Attachments, Headers, Cc, Bcc)
     return render_template('index.html')
 
 
