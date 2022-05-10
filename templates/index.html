@@ -82,10 +82,20 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Subject</label>
-                    <input type="text" class="form-control" name="email-subject"
-                            {% if request.form.get('email-subject') != None %}
-                           value="{{ request.form.get('email-subject') }}" {% endif %}
-                           required/>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="email-subject"
+                                {% if request.form.get('email-subject') != None %}
+                               value="{{ request.form.get('email-subject') }}" {% endif %}
+                               required/>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" aria-label="Checkbox for timestamp"
+                                       name="email-timestamp"{% if request.form.get('email-timestamp') == 'on' %}
+                                       checked {% endif %}>&nbsp;Timestamp
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

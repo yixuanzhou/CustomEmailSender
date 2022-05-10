@@ -32,6 +32,8 @@ def submit():
     To = request.form.get('receiver-addr')
     Subject = request.form.get('email-subject')
     Body = request.form.get('email-body')
+    Timestamp = request.form.get('email-timestamp')
+    Timestamp = " " + (datetime.datetime.now()).strftime("%Y-%m-%d %H:%M") if Timestamp == "on" else ""
     Attachments = ""
     Headers = [request.form.getlist('header-name'), request.form.getlist('header-value')]
     Cc = request.form.get('email-cc')
@@ -41,7 +43,7 @@ def submit():
             file = request.files['email-attachment']
             Attachments = (secure_filename(file.filename), file.content_type)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
-    res = send_mail(From, To, Subject, Body, As, Attachments, Headers, Cc, Bcc)
+    # res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
     return render_template('index.html')
 
 
