@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, request
 from werkzeug.utils import secure_filename
 from utils.send_mail import *
 import os
@@ -43,7 +43,7 @@ def submit():
             file = request.files['email-attachment']
             Attachments = (secure_filename(file.filename), file.content_type)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
-    # res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
+    res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
     return render_template('index.html')
 
 
