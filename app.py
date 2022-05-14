@@ -43,13 +43,12 @@ def submit():
             file = request.files['email-attachment']
             Attachments = (secure_filename(file.filename), file.content_type)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
+
     res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
-    if res:
-        flash('Sent Message successfully', 'success')
-    else:
-        flash('Sorry, something is wwrong', 'error')
+    flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
+
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002, debug=True)
+    app.run(host='0.0.0.0', debug=True)
