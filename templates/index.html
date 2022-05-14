@@ -221,6 +221,13 @@
             <input class="btn btn-primary" type="submit" name="send-mails" value="Send Mail" onclick="toggle()">
             <input class="btn btn-warning" type="submit" name="clear" value="Clear All" onclick="toggle()">
             <div class="spinner-border text-info" role="status" id="loader" style="display:none"></div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert {{ category }}"> {{ message|capitalize }} </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
         </div>
     </form>
 
