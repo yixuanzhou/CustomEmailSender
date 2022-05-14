@@ -30,7 +30,7 @@
 <main role="main" class="container">
 
     <br/>
-    <form enctype="multipart/form-data" id="mail-form" action="/" method="POST" novalidate>
+    <form enctype="multipart/form-data" id="mail-form" action="/" method="POST">
         <div class="row mt-3"></div>
 
         <div>
@@ -82,23 +82,33 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Subject</label>
-                    <input type="text" class="form-control" name="email-subject"
-                            {% if request.form.get('email-subject') != None %}
-                           value="{{ request.form.get('email-subject') }}" {% endif %}
-                           required/>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="email-subject"
+                                {% if request.form.get('email-subject') != None %}
+                               value="{{ request.form.get('email-subject') }}" {% endif %}
+                               required/>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" aria-label="Checkbox for timestamp"
+                                       name="email-timestamp"{% if request.form.get('email-timestamp') == 'on' %}
+                                       checked {% endif %}>&nbsp;Timestamp
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Cc</label>
-                    <input type="text" class="form-control" name="email-cc"
+                    <input type="email" class="form-control" name="email-cc"
                             {% if request.form.get('email-cc') != None %}
                            value="{{ request.form.get('email-cc') }}" {% endif %}/>
                 </div>
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Bcc</label>
-                    <input type="text" class="form-control" name="email-bcc"
+                    <input type="email" class="form-control" name="email-bcc"
                             {% if request.form.get('email-bcc') != None %}
                            value="{{ request.form.get('email-bcc') }}" {% endif %}/>
                 </div>
@@ -189,19 +199,6 @@
 
         <br/>
 
-        {% block content %}
-            <div class="container">
-                {% for message in get_flashed_messages() %}
-                    <div class="alert alert-warning">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        {{ message }}
-                    </div>
-                {% endfor %}
-
-                {% block page_content %}{% endblock %}
-            </div>
-        {% endblock %}
-
         <div>
             <script>
                 function toggle() {
@@ -211,6 +208,11 @@
             <input class="btn btn-primary" type="submit" name="send-mails" value="Send Mail" onclick="toggle()">
             <input class="btn btn-warning" type="submit" name="clear" value="Clear All" onclick="toggle()">
             <div class="spinner-border text-info" role="status" id="loader" style="display:none"></div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" style="display:inline-block;"> {{ message|capitalize }} </div>
+                {% endfor %}
+            {% endwith %}
         </div>
     </form>
 
@@ -265,6 +267,14 @@
     $(".custom-file-input").on("change", function () {
         const fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".alert-success, .alert-danger").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert-success, .alert-danger").slideUp(500);
+        });
     });
 </script>
 

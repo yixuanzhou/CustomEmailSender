@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, request, flash
 from werkzeug.utils import secure_filename
 from utils.send_mail import *
 import os
@@ -32,6 +32,8 @@ def submit():
     To = request.form.get('receiver-addr')
     Subject = request.form.get('email-subject')
     Body = request.form.get('email-body')
+    Timestamp = request.form.get('email-timestamp')
+    Timestamp = " " + (datetime.datetime.now()).strftime("%Y-%m-%d %H:%M") if Timestamp == "on" else ""
     Attachments = ""
     Headers = [request.form.getlist('header-name'), request.form.getlist('header-value')]
     Cc = request.form.get('email-cc')
@@ -41,9 +43,12 @@ def submit():
             file = request.files['email-attachment']
             Attachments = (secure_filename(file.filename), file.content_type)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
-    res = send_mail(From, To, Subject, Body, As, Attachments, Headers, Cc, Bcc)
+
+    res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
+    flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
+
     return render_template('index.html')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002, debug=True)
+    app.run(host='0.0.0.0', debug=True)

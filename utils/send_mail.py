@@ -58,10 +58,8 @@ def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_
 
     try:
         response = sg.client.mail.send.post(request_body=message.get())
+        if response.status_code in range(200, 300):
+            return True
     except Exception as err:
         print(err)
-    return True
-
-if __name__ == "__main__":
-    # send_mail(faker.email(), "admin@armorblox.dev", "hello world", faker.paragraph(), faker.name(), "", [("X-TEST", "OKOK"), ("X-TEST2", "HHH")])
-    pass
+    return False
