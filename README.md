@@ -32,4 +32,4 @@ flask run
 - Bulk emails sending - To Do
 
 ## Usage
-<img src="https://github.com/yixuanzhou/Tortoise/blob/main/static/uploads/Tortoise.gif" width="80">
+![image](https://github.com/yixuanzhou/Tortoise/blob/main/static/uploads/Tortoise.gif)
