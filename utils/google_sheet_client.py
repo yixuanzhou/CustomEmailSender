@@ -32,16 +32,7 @@ class GoogleSheetClient:
         sheet = self.service.spreadsheets()
         result = sheet.values().get(spreadsheetId=SHEET_ID, range=sheet_name, valueRenderOption='FORMATTED_VALUE').execute()
         values = result.get('values', [])
-        data = []
-
-        if not values:
-            print('No data found.')
-        else:
-            for value in values:  # skip the table header
-                data.append([value[0]])
-                # data.append(dict(zip(values[0][:-1], value)))
-        print(*data, sep="\n")  # print each element in new line
-        return data
+        return values
 
     def get_sheet_list(self):
         resp = self.service.spreadsheets().get(spreadsheetId=SHEET_ID).execute()
@@ -49,12 +40,11 @@ class GoogleSheetClient:
         sheet_names = []
         for sheet in sheets:
             sheet_names.append(sheet['properties']['title'])
-        print(sheet_names)
         return sheet_names
 
 
 if __name__ == "__main__":
-    # pass
-    gsc = GoogleSheetClient()
-    gsc.read_sheet("GRAYMAIL")
-    gsc.get_sheet_list()
+    pass
+    # gsc = GoogleSheetClient()
+    # gsc.read_sheet("GRAYMAIL")
+    # gsc.get_sheet_list()

@@ -46,9 +46,17 @@ def submit():
             file = request.files['email-attachment']
             Attachments = (secure_filename(file.filename), file.content_type)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
-
-    res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
-    flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
+    if request.form.get('test-type') == 'predefined':
+        mail_bodies = gsc.read_sheet(request.form['sheet-name'])
+        for idx, mail_body in enumerate(mail_bodies):
+            res = send_mail(From, To, Subject + " " + str(idx) + Timestamp, mail_body[0], As, Attachments, Headers, Cc, Bcc)
+            if not res:
+                flash('Sorry, something went wrong', 'danger')
+                break
+        flash('Sent Message successfully!', 'success')
+    else:
+        res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
+        flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
 
     return render_template('index.html', sheets=sheet_list)
 
