@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request, flash
 from werkzeug.utils import secure_filename
 from utils.send_mail import *
+from utils.google_sheet_client import *
 import os
 
 app = Flask(__name__)
@@ -8,6 +9,8 @@ app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = ('txt', 'pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png')
+gsc = GoogleSheetClient()
+sheet_list = gsc.get_sheet_list()
 
 
 def allowed_file(filename):
@@ -17,7 +20,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', sheets=sheet_list)
 
 
 @app.route('/', methods=['POST'])
@@ -47,7 +50,7 @@ def submit():
     res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
     flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
 
-    return render_template('index.html')
+    return render_template('index.html', sheets=sheet_list)
 
 
 if __name__ == '__main__':
