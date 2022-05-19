@@ -30,7 +30,8 @@ class GoogleSheetClient:
 
     def read_sheet(self, sheet_name):
         sheet = self.service.spreadsheets()
-        result = sheet.values().get(spreadsheetId=SHEET_ID, range=sheet_name, valueRenderOption='FORMATTED_VALUE').execute()
+        result = sheet.values().get(spreadsheetId=SHEET_ID, range=sheet_name,
+                                    valueRenderOption='FORMATTED_VALUE').execute()
         values = result.get('values', [])
         return values
 
@@ -41,10 +42,3 @@ class GoogleSheetClient:
         for sheet in sheets:
             sheet_names.append(sheet['properties']['title'])
         return sheet_names
-
-
-if __name__ == "__main__":
-    pass
-    # gsc = GoogleSheetClient()
-    # gsc.read_sheet("GRAYMAIL")
-    # gsc.get_sheet_list()
