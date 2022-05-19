@@ -44,8 +44,8 @@ def submit():
             Attachments = (secure_filename(file.filename), file.content_type)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
 
-    # res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
-    # flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
+    res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
+    flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
 
     return render_template('index.html')
 
