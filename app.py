@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request, flash
 from werkzeug.utils import secure_filename
 from utils.send_mail import *
+from utils.google_sheet_client import *
 import os
 
 app = Flask(__name__)
@@ -8,6 +9,8 @@ app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = ('txt', 'pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png')
+gsc = GoogleSheetClient()
+sheet_list = gsc.get_sheet_list()
 
 
 def allowed_file(filename):
@@ -17,7 +20,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', sheets=sheet_list)
 
 
 @app.route('/', methods=['POST'])
@@ -43,11 +46,19 @@ def submit():
             file = request.files['email-attachment']
             Attachments = (secure_filename(file.filename), file.content_type)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], Attachments[0]))
+    if request.form.get('test-type') == 'predefined':
+        mail_bodies = gsc.read_sheet(request.form['sheet-name'])
+        for idx, mail_body in enumerate(mail_bodies):
+            res = send_mail(From, To, Subject + " " + str(idx) + Timestamp, mail_body[0], As, Attachments, Headers, Cc, Bcc)
+            if not res:
+                flash('Sorry, something went wrong', 'danger')
+                break
+        flash('Sent Message successfully!', 'success')
+    else:
+        res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
+        flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
 
-    res = send_mail(From, To, Subject + Timestamp, Body, As, Attachments, Headers, Cc, Bcc)
-    flash('Sent Message successfully!', 'success') if res else flash('Sorry, something went wrong', 'danger')
-
-    return render_template('index.html')
+    return render_template('index.html', sheets=sheet_list)
 
 
 if __name__ == '__main__':
