@@ -30,7 +30,7 @@
 <main role="main" class="container">
 
     <br/>
-    <form enctype="multipart/form-data" id="mail-form" action="/" method="POST">
+    <form enctype="multipart/form-data" id="mail-form" action="/" method="POST" novalidate>
         <div class="row mt-3"></div>
 
         <div>
@@ -184,10 +184,51 @@
                 {% endif %}
             </div>
 
+
             <div class="form-group">
-                <label class="font-weight-bold" for="formControlTextarea">Body</label>
-                <textarea class="form-control" id="formControlTextarea" rows="5" name="email-body"
-                          required>{% if request.form.get('email-body') != None %}{{ request.form.get('email-body') }}{% endif %}</textarea>
+                <label class="font-weight-bold" for="formControlTextarea">Body&nbsp</label>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="test-type" value="custom" class="custom-control-input" id="radioInline1" checked>
+                    <label class="custom-control-label" for="radioInline1">Custom</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" name="test-type" value="predefined" class="custom-control-input"
+                           id="radioInline2"
+                           {% if case=="predefined" or request.form.get('test-type') == 'predefined' %}checked{% endif %}>
+                    <label class="custom-control-label" for="radioInline2">Predefined</label>
+                </div>
+                <div id="custom-case" {% if case=="predefined" or request.form.get('test-type') == 'predefined' %}style="display:none;" {% endif %}>
+                    <textarea class="form-control" id="formControlTextarea" rows="5"
+                              name="email-body">{% if request.form.get('email-body') != None %}{{ request.form.get('email-body') }}{% endif %}</textarea>
+                </div>
+                <div id="predefined-case" {% if case=="predefined" or request.form.get('test-type') == 'predefined' %}style="display:inline;"
+                     {% else %}style="display:none;" {% endif %}>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">Google sheets ID</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="1UD7QK8FcTGsPSbAKDYIjpahIjMSzDZvYXzG0ht94yHo">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" disabled>Confirm</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect">Sheet name</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect" name="sheet-name">
+                            <option selected>Choose sheet</option>
+                            {% for sheet in sheets %}
+                                {% if sheet == curr_sheet %}
+                                    <option value="{{ sheet }}" selected>{{ sheet }}</option>
+                                {% else %}
+                                    <option value="{{ sheet }}">{{ sheet }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <p class="font-weight-bold" style="margin-bottom:0.5em;">Attachments</p>
@@ -210,7 +251,8 @@
             <div class="spinner-border text-info" role="status" id="loader" style="display:none"></div>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}" style="display:inline-block;"> {{ message|capitalize }} </div>
+                    <div class="alert alert-{{ category }}"
+                         style="display:inline-block;"> {{ message|capitalize }} </div>
                 {% endfor %}
             {% endwith %}
         </div>
@@ -267,6 +309,27 @@
     $(".custom-file-input").on("change", function () {
         const fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        const customCase = $('#custom-case');
+        const predefinedCase = $('#predefined-case');
+        $('input[type="radio"]').click(function () {
+            const val = $(this).attr("value");
+            switch (val) {
+                case 'custom':
+                    customCase.show();
+                    predefinedCase.hide();
+                    break;
+                case 'predefined':
+                    customCase.hide();
+                    predefinedCase.show();
+                    break;
+                default:
+            }
+        });
     });
 </script>
 
