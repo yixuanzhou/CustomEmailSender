@@ -16,9 +16,9 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
     <!-- Custom styles for this template -->
     <link href="../static/template.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -203,8 +203,7 @@
                 <div id="custom-case"
                      {% if case=="predefined" or request.form.get('test-type') == 'predefined' %}style="display:none;" {% endif %}>
                     <textarea class="form-control" id="formControlTextarea" rows="5"
-                              name="email-body">{% if request.form.get('email-body') != None %}
-                        {{ request.form.get('email-body') }}{% endif %}</textarea>
+                              name="email-body">{% if request.form.get('email-body') != None %}{{ request.form.get('email-body') }}{% endif %}</textarea>
                 </div>
                 <div id="predefined-case"
                      {% if case=="predefined" or request.form.get('test-type') == 'predefined' %}style="display:inline;"
@@ -223,7 +222,8 @@
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputGroupSelect">Sheet name</label>
                         </div>
-                        <select class="selectpicker form-control show-tick" title="Choose one of the sheets..." data-width="auto" id="inputGroupSelect" name="sheet-name">
+                        <select class="selectpicker form-control show-tick" title="Choose one of the sheets..."
+                                data-width="auto" id="inputGroupSelect" name="sheet-name">
                             {% for sheet in sheets %}
                                 {% if sheet == curr_sheet %}
                                     <option value="{{ sheet }}" selected>{{ sheet }}</option>
@@ -348,8 +348,11 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
