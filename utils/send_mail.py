@@ -1,8 +1,9 @@
-# using SendGrid's Python Library
-# https://github.com/sendgrid/sendgrid-python
-import sendgrid
+# !/usr/bin/env python
+# @Date    : 2022-05-05
+# @Author  : Yixuan Zhou (ethanzhou@alumni.usc.edu)
 import base64
-import datetime, os
+import os
+import sendgrid
 from sendgrid.helpers.mail import *
 from faker import Faker
 
@@ -11,7 +12,24 @@ sg = sendgrid.SendGridAPIClient(api_key=os.environ['API_KEY'])
 ATTACHMENT_FOLDER = "static/uploads/"
 
 
-def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_attachment=None, mail_headers=None, mail_cc=None, mail_bcc=None):
+def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_attachment=None, mail_headers=None,
+              mail_cc=None, mail_bcc=None) -> bool:
+    """Using SendGrid's Python Library: https://github.com/sendgrid/sendgrid-python
+
+    Args:
+        mail_from (str): Email From Address -> sender
+        mail_to (str): List of Email To Address -> recipients (comma separated)
+        mail_subject (str): Email Subject
+        mail_content (str): Email Body in Text/Html
+        sender_name (str): Sender Name
+        mail_attachment (str): Mail Attachment Filepath (default None)
+        mail_headers (list): List of Email Headers (default None)
+        mail_cc (str): List of Email CC Address (comma separated, default None)
+        mail_bcc (str): List of Email BCC Address (comma separated, default None)
+
+    Returns:
+        bool: success/failure of email sending
+    """
     for name, value in vars().items():
         print(name, value)
 
@@ -40,8 +58,8 @@ def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_
         message.attachment = attached_file
 
     if mail_headers != [[''], ['']]:
-        for h, v in zip(mail_headers[0], mail_headers[1]):
-            headers.append(Header(h, v))
+        for hdr, val in zip(mail_headers[0], mail_headers[1]):
+            headers.append(Header(hdr, val))
         message.header = headers
 
     if mail_cc:
