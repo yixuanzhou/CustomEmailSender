@@ -38,7 +38,7 @@ class GoogleSheetClient:
         :param string sheet_name: sheet name
         :return list
         """
-        sheet = self.service.spreadsheets()
+        sheet = self.service.spreadsheets()  # pylint: disable=maybe-no-member
         result = sheet.values().get(spreadsheetId=SHEET_ID, range=sheet_name,
                                     valueRenderOption='FORMATTED_VALUE').execute()
         values = result.get('values', [])
@@ -49,7 +49,7 @@ class GoogleSheetClient:
 
         :return list: Sheet Names
         """
-        resp = self.service.spreadsheets().get(spreadsheetId=SHEET_ID).execute()
+        resp = self.service.spreadsheets().get(spreadsheetId=SHEET_ID).execute()  # pylint: disable=maybe-no-member
         sheets = resp["sheets"]
         sheet_names = []
         for sheet in sheets:
