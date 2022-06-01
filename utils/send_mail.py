@@ -3,6 +3,7 @@
 # @Author  : Yixuan Zhou (ethanzhou@alumni.usc.edu)
 import base64
 import os
+import re
 import sendgrid
 from sendgrid.helpers.mail import *
 from faker import Faker
@@ -40,6 +41,7 @@ def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_
         to_emails[idx] = To(to_email)
     message.to = to_emails
     message.subject = Subject(mail_subject)
+    mail_content = re.sub("(?:\r\n|\r|\n)", "<br />", mail_content)
     message.content = Content("text/html", "<pre>" + mail_content + "</pre>")
     headers, cc_mails, bcc_mails = [], [], []
 
