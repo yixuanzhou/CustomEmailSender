@@ -13,3 +13,8 @@ body {
 .alert.error {
   background-color: red;
 }
+
+.form-group.required .font-weight-bold:after {
+  content:"*";
+  color:red;
+}
