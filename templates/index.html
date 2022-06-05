@@ -37,7 +37,7 @@
 
         <div>
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group required col-md-6">
                     <label class="font-weight-bold">From</label>
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" id="customSenderAddr" name="sender-addr"
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group required col-md-6">
                     <label class="font-weight-bold">As</label>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="customSenderName" name="sender-name"
@@ -76,13 +76,13 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group required col-md-6">
                     <label class="font-weight-bold">To</label>
                     <input type="text" class="form-control" name="receiver-addr"
                             {% if request.form.get('receiver-addr') != None %}
                            value="{{ request.form.get('receiver-addr') }}" {% endif %} required/>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group required col-md-6">
                     <label class="font-weight-bold">Subject</label>
                     <div class="input-group">
                         <input type="text" class="form-control" name="email-subject"
@@ -187,7 +187,7 @@
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group required">
                 <label class="font-weight-bold" for="formControlTextarea">Body&nbsp</label>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" name="test-type" value="custom" class="custom-control-input" id="radioInline1"
