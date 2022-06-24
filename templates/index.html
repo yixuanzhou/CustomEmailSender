@@ -224,7 +224,7 @@
                         <select class="selectpicker form-control show-tick" title="Choose one of the sheets..."
                                 data-width="auto" id="inputGroupSelect" name="sheet-name">
                             {% for sheet in sheets %}
-                                {% if sheet == curr_sheet %}
+                                {% if sheet == request.form.get('sheet-name') %}
                                     <option value="{{ sheet }}" selected>{{ sheet }}</option>
                                 {% else %}
                                     <option value="{{ sheet }}">{{ sheet }}</option>
