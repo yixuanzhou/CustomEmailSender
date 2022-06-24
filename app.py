@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
-app.config['ALLOWED_EXTENSIONS'] = ('txt', 'pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png')
+app.config['ALLOWED_EXTENSIONS'] = ('txt', 'pdf', 'doc', 'docx', 'jpg', 'jpeg', 'eml')
 gsc = GoogleSheetClient()
 sheet_list = gsc.get_sheet_list()
 

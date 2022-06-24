@@ -94,7 +94,6 @@
                                 <input type="checkbox" aria-label="Checkbox for timestamp"
                                        name="email-timestamp"{% if request.form.get('email-timestamp') == 'on' %}
                                        checked {% endif %}>&nbsp;Timestamp
-
                             </div>
                         </div>
                     </div>
@@ -225,7 +224,7 @@
                         <select class="selectpicker form-control show-tick" title="Choose one of the sheets..."
                                 data-width="auto" id="inputGroupSelect" name="sheet-name">
                             {% for sheet in sheets %}
-                                {% if sheet == curr_sheet %}
+                                {% if sheet == request.form.get('sheet-name') %}
                                     <option value="{{ sheet }}" selected>{{ sheet }}</option>
                                 {% else %}
                                     <option value="{{ sheet }}">{{ sheet }}</option>
@@ -275,7 +274,7 @@
 <!-- Retain last submitted value for text input -->
 <script>
     function addMoreHeader() {
-        var html = `<div class="input-group">
+        let html = `<div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Header</span>
                     </div>
@@ -316,7 +315,6 @@
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 </script>
-
 <script>
     $(document).ready(function () {
         const customCase = $('#custom-case');
@@ -337,7 +335,6 @@
         });
     });
 </script>
-
 <script>
     $(document).ready(function () {
         $(".alert-success, .alert-danger").fadeTo(2000, 500).slideUp(500, function () {
