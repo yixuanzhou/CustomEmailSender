@@ -41,15 +41,16 @@ def submit():
     content = request.form.get('email-body')
     timestamp = request.form.get('email-timestamp')
     timestamp = " " + (datetime.datetime.now()).strftime("%Y-%m-%d %H:%M") if timestamp == "on" else ""
-    attachments = ""
+    attachments = []
     headers = [request.form.getlist('header-name'), request.form.getlist('header-value')]
     cc = request.form.get('email-cc')
     bcc = request.form.get('email-bcc')
     if 'email-attachment' in request.files:
-        if request.files.get('email-attachment').filename:
-            file = request.files['email-attachment']
-            attachments = (secure_filename(file.filename), file.content_type)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], attachments[0]))
+        files = request.files.getlist('email-attachment')
+        if files:
+            for file in files:
+                attachments.append((secure_filename(file.filename), file.content_type))
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
     if request.form.get('test-type') == 'predefined':
         mail_bodies = gsc.read_sheet(request.form['sheet-name'])
         for idx, mail_body in enumerate(mail_bodies):

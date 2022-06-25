@@ -237,8 +237,8 @@
 
             <p class="font-weight-bold" style="margin-bottom:0.5em;">Attachments</p>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile" name="email-attachment">
-                <label class="custom-file-label" for="customFile">Choose file</label>
+                <input type="file" class="custom-file-input" id="customFile" name="email-attachment" multiple>
+                <label class="custom-file-label" for="customFile" >Choose one or multiple files</label>
             </div>
         </div>
 
@@ -310,9 +310,12 @@
     }
 </script>
 <script>
-    $(".custom-file-input").on("change", function () {
-        const fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    $('.custom-file-input').change(function (e) {
+        let files = [];
+        for (let i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(', '));
     });
 </script>
 <script>
