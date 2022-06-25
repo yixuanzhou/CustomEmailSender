@@ -27,8 +27,8 @@ nohup flask run --host=0.0.0.0 > flask.log 2>&1 & # Or run in background
 ## Features
 - Generate random fake sender - Using [Faker](https://github.com/joke2k/faker)
 - Add custom email headers
-- Add CC/BCC
-- Plain/HTML mail body
-- Mail attachments
-- Configure your own mail sending server - Modify utils/send_mail.py
-- Bulk emails sending - Available for Google Sheets
+- Add CC/BCC recipients
+- Plain Text/HTML mail body
+- Send one or multiple mail attachments
+- Configure own mail sending server - Modify utils/send_mail.py
+- Bulk emails sending - Read data from Google Sheets

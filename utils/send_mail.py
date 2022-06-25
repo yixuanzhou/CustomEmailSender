@@ -13,7 +13,7 @@ sg = sendgrid.SendGridAPIClient(api_key=os.environ['API_KEY'])
 ATTACHMENT_FOLDER = "static/uploads/"
 
 
-def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_attachment=None, mail_headers=None,
+def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_attachments=None, mail_headers=None,
               mail_cc=None, mail_bcc=None) -> bool:
     """Using SendGrid's Python Library: https://github.com/sendgrid/sendgrid-python
 
@@ -23,7 +23,7 @@ def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_
         mail_subject (str): Email Subject
         mail_content (str): Email Body in Text/Html
         sender_name (str): Sender Name
-        mail_attachment (str): Mail Attachment Filepath (default None)
+        mail_attachments (list): List of Mail Attachment Filepath (default None)
         mail_headers (list): List of Email Headers (default None)
         mail_cc (str): List of Email CC Address (comma separated, default None)
         mail_bcc (str): List of Email BCC Address (comma separated, default None)
@@ -45,19 +45,22 @@ def send_mail(mail_from, mail_to, mail_subject, mail_content, sender_name, mail_
     message.content = Content("text/html", "<pre>" + mail_content + "</pre>")
     headers, cc_mails, bcc_mails = [], [], []
 
-    if mail_attachment:
-        filename, filetype = mail_attachment[0], mail_attachment[1]
-        with open(ATTACHMENT_FOLDER + filename, 'rb') as f:
-            data = f.read()
-            f.close()
-        encoded_file = base64.b64encode(data).decode()
-        attached_file = Attachment(
-            FileContent(encoded_file),
-            FileName(filename),
-            FileType(filetype),
-            Disposition('attachment')
-        )
-        message.attachment = attached_file
+    if mail_attachments:
+        attached_files = []
+        for mail_attachment in mail_attachments:
+            filename, filetype = mail_attachment[0], mail_attachment[1]
+            with open(ATTACHMENT_FOLDER + filename, 'rb') as f:
+                data = f.read()
+                f.close()
+            encoded_file = base64.b64encode(data).decode()
+            attached_file = Attachment(
+                FileContent(encoded_file),
+                FileName(filename),
+                FileType(filetype),
+                Disposition('attachment')
+            )
+            attached_files.append(attached_file)
+        message.attachment = attached_files
 
     if mail_headers != [[''], ['']]:
         for hdr, val in zip(mail_headers[0], mail_headers[1]):
