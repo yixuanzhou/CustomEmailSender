@@ -45,12 +45,12 @@ def submit():
     headers = [request.form.getlist('header-name'), request.form.getlist('header-value')]
     cc = request.form.get('email-cc')
     bcc = request.form.get('email-bcc')
-    if 'email-attachment' in request.files:
-        files = request.files.getlist('email-attachment')
-        if files:
-            for file in files:
-                attachments.append((secure_filename(file.filename), file.content_type))
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+    files = request.files.getlist('email-attachment')
+    for file in files:
+        if file.filename == '':
+            continue
+        attachments.append((secure_filename(file.filename), file.content_type))
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
     if request.form.get('test-type') == 'predefined':
         mail_bodies = gsc.read_sheet(request.form['sheet-name'])
         for idx, mail_body in enumerate(mail_bodies):
