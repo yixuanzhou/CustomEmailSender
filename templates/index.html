@@ -42,6 +42,9 @@
                 <div class="form-group required col-md-6">
                     <label class="font-weight-bold">From</label>
                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-grey"><i class="fa-solid fa-envelope"></i></span>
+                        </div>
                         <input type="email" class="form-control" id="customSenderAddr" name="sender-addr"
                                 {% if request.form.get('sender-addr') != None %}
                                value="{{ request.form.get('sender-addr') }}"  {% endif %} required>
@@ -56,6 +59,9 @@
                 <div class="form-group required col-md-6">
                     <label class="font-weight-bold">As</label>
                     <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-grey"><i class="fa-solid fa-user"></i></span>
+                        </div>
                         <input type="text" class="form-control" id="customSenderName" name="sender-name"
                                 {% if request.form.get('sender-name') != None %}
                                value="{{ request.form.get('sender-name') }}" {% endif %} required>
@@ -71,13 +77,21 @@
             <div class="form-row">
                 <div class="form-group required col-md-6">
                     <label class="font-weight-bold">To</label>
-                    <input type="text" class="form-control" name="receiver-addr"
-                            {% if request.form.get('receiver-addr') != None %}
-                           value="{{ request.form.get('receiver-addr') }}" {% endif %} required/>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-grey"><i class="fa-solid fa-user-group"></i></span>
+                        </div>
+                        <input type="text" class="form-control" name="receiver-addr"
+                                {% if request.form.get('receiver-addr') != None %}
+                               value="{{ request.form.get('receiver-addr') }}" {% endif %} required/>
+                    </div>
                 </div>
                 <div class="form-group required col-md-6">
                     <label class="font-weight-bold">Subject</label>
                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-grey"><i class="fa-solid fa-envelope-open-text"></i></span>
+                        </div>
                         <input type="text" class="form-control" name="email-subject"
                                 {% if request.form.get('email-subject') != None %}
                                value="{{ request.form.get('email-subject') }}" {% endif %}
@@ -97,15 +111,25 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Cc</label>
-                    <input type="email" class="form-control" name="email-cc"
-                            {% if request.form.get('email-cc') != None %}
-                           value="{{ request.form.get('email-cc') }}" {% endif %}/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-grey"><i class="fa-solid fa-people-group"></i></span>
+                        </div>
+                        <input type="email" class="form-control" name="email-cc"
+                                {% if request.form.get('email-cc') != None %}
+                               value="{{ request.form.get('email-cc') }}" {% endif %}/>
+                    </div>
                 </div>
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Bcc</label>
-                    <input type="email" class="form-control" name="email-bcc"
-                            {% if request.form.get('email-bcc') != None %}
-                           value="{{ request.form.get('email-bcc') }}" {% endif %}/>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-grey"><i class="fa-solid fa-people-group"></i></span>
+                        </div>
+                        <input type="email" class="form-control" name="email-bcc"
+                                {% if request.form.get('email-bcc') != None %}
+                               value="{{ request.form.get('email-bcc') }}" {% endif %}/>
+                    </div>
                 </div>
             </div>
 
@@ -187,7 +211,8 @@
                 <div id="custom-case" class="textarea-container"
                      {% if case=="predefined" or request.form.get('test-type') == 'predefined' %}style="display:none;" {% endif %}>
                     <textarea class="form-control" id="formControlTextarea" rows="5"
-                              name="email-body">{% if request.form.get('email-body') != None %}{{ request.form.get('email-body') }}{% endif %}</textarea>
+                              name="email-body">{%- if request.form.get('email-body') != None -%}
+                        {{ request.form.get('email-body') }}{%- endif -%}</textarea>
                     <button id="preview-email" type="button">
                         <i class="fa-solid fa-eye"></i>
                     </button>
@@ -225,8 +250,15 @@
 
             <p class="font-weight-bold" style="margin-bottom:0.5em;">Attachments</p>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFile" name="email-attachment" multiple>
-                <label class="custom-file-label" for="customFile">Choose one or multiple files</label>
+                <div class="input-group">
+                    <div class="input-group-prepend" style="position:relative; z-index:1">
+                        <span class="input-group-text bg-grey"><i class="fa-solid fa-paperclip"></i></span>
+                    </div>
+                    <input type="file" class="form-control custom-file-input" id="customFile" name="email-attachment"
+                           multiple>
+                    <label class="custom-file-label" for="customFile" style="position:absolute; z-index:0">&emsp;&emsp;Choose
+                        one or multiple files</label>
+                </div>
             </div>
         </div>
 
@@ -238,8 +270,12 @@
                     $('#loader').show();
                 }
             </script>
-            <input class="btn btn-primary" type="submit" name="send-mails" value="Send Mail" onclick="toggle()">
-            <input class="btn btn-warning" type="submit" name="clear" value="Clear All" onclick="toggle()">
+            <button class="btn btn-primary" type="submit" name="send-mails" value="Send Mail" onclick="toggle()"><i
+                    class="fa-solid fa-paper-plane"></i>&ensp;Send Mail
+            </button>
+            <button class="btn btn-warning" type="submit" name="clear" value="Clear All" onclick="toggle()"><i
+                    class="fa-solid fa-rotate-left"></i>&ensp;Clear All
+            </button>
             <div class="spinner-border text-info" role="status" id="loader" style="display:none"></div>
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
@@ -252,7 +288,7 @@
     <div class="row mt-3"></div>
 
     <dialog id="dialog">
-        <div id="email-previewer">THIS IS DIALOG!!!</div>
+        <div id="email-previewer"></div>
         <button id="close-dialog">Close</button>
     </dialog>
 
