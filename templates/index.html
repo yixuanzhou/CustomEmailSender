@@ -46,7 +46,8 @@
                                 {% if request.form.get('sender-addr') != None %}
                                value="{{ request.form.get('sender-addr') }}"  {% endif %} required>
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" onclick="generateRandomEmailAddress()">
+                            <button class="btn btn-primary" type="button"
+                                    onclick="generateRandomEmailAddress()">
                                 <i class="fa-solid fa-rotate-right"></i>
                             </button>
                         </div>
@@ -84,7 +85,8 @@
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <input type="checkbox" aria-label="Checkbox for timestamp"
-                                       name="email-timestamp"{% if request.form.get('email-timestamp') == 'on' %}
+                                       name="email-timestamp"
+                                        {% if request.form.get('email-timestamp') == 'on' %}
                                        checked {% endif %}>&nbsp;Timestamp
                             </div>
                         </div>
@@ -119,7 +121,8 @@
                             <span class="input-group-text">Value</span>
                         </div>
                         <input type="text" class="form-control" name="header-value">
-                        <button type="button" class="btn btn-success" id="emailHeader" onclick="addMoreHeader()">
+                        <button type="button" class="btn btn-success" id="emailHeader"
+                                onclick="addMoreHeader()">
                             <i class="fa-regular fa-plus"></i>
                         </button>
                     </div>
@@ -170,7 +173,8 @@
             <div class="form-group required">
                 <label class="font-weight-bold" for="formControlTextarea">Body&nbsp</label>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" name="test-type" value="custom" class="custom-control-input" id="radioInline1"
+                    <input type="radio" name="test-type" value="custom" class="custom-control-input"
+                           id="radioInline1"
                            checked>
                     <label class="custom-control-label" for="radioInline1">Custom</label>
                 </div>
@@ -184,8 +188,8 @@
                      {% if case=="predefined" or request.form.get('test-type') == 'predefined' %}style="display:none;" {% endif %}>
                     <textarea class="form-control" id="formControlTextarea" rows="5"
                               name="email-body">{% if request.form.get('email-body') != None %}{{ request.form.get('email-body') }}{% endif %}</textarea>
-                    <button class="btn btn-primary" type="button" onclick="generateRandomParagraph()">
-                        <i class="fa-solid fa-rotate-right"></i>
+                    <button id="preview-email" type="button">
+                        <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
                 <div id="predefined-case"
@@ -245,10 +249,15 @@
             {% endwith %}
         </div>
     </form>
-
     <div class="row mt-3"></div>
 
+    <dialog id="dialog">
+        <div id="email-previewer">THIS IS DIALOG!!!</div>
+        <button id="close-dialog">Close</button>
+    </dialog>
+
 </main><!-- /.container -->
+
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -290,6 +299,16 @@
     function generateRandomParagraph() {
         $('#formControlTextarea').val(faker.lorem.paragraphs()); // Lorem
     }
+</script>
+<script>
+    document.getElementById('preview-email').addEventListener('click', () => {
+        document.getElementById('dialog').showModal();
+        document.getElementById('email-previewer').innerHTML = $('textarea#formControlTextarea').val();
+    });
+
+    document.getElementById('close-dialog').addEventListener('click', () => {
+        document.getElementById('dialog').close();
+    });
 </script>
 <script>
     $('.custom-file-input').change(function (e) {
