@@ -4,11 +4,12 @@
 > 
 Flask App to send custom email messages using SendGrid.
 
-<img src="https://github.com/yixuanzhou/Tortoise/blob/main/static/uploads/Tortoise.gif" alt="demo" width="400"/>
+<img src="https://github.com/yixuanzhou/Tortoise/blob/main/static/uploads/Tortoise.png" alt="demo" />
 
 ## Getting Started
 ### Prerequisites
 - Python
+- [SendGrid](https://sendgrid.com/)
 
 #### Install Requirements
 ```bash
@@ -27,8 +28,8 @@ nohup flask run --host=0.0.0.0 > flask.log 2>&1 & # Or run in background
 ## Features
 - Generate random fake sender - Using [Faker](https://github.com/joke2k/faker)
 - Add custom email headers
-- Add CC/BCC recipients
-- Plain Text/HTML mail body
+- Add Cc/Bcc recipients
+- Preview mail body in HTML
 - Send one or multiple mail attachments
-- Configure own mail sending server - Modify utils/send_mail.py
-- Bulk emails sending - Read data from Google Sheets
+- Configurable mail server - utils/send_mail.py
+- Bulk email sending - Read data from Google Sheets
